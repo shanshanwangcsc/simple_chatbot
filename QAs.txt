@@ -1,0 +1,8 @@
+how many passagers altogether?   887
+how many survived?  342
+what is the eldest age of the person who survived? 80
+what is the youngest age of the person who survived? 0.42
+how many people passed away? 545
+what is the eldest age of the person who passed away? 74.0
+what is the youngest age of the person who passed away? 1
+plot the age distribution who survived?
