@@ -1,8 +1,12 @@
 # Simple_chatbot
 
 This is a simple chatbot repo which could answer questions related to the customized documents and a uploaded csv file.
-
-## Environment requirement
+## Create an vitual python environment
+The simplest way of creating a python virtual environment is
+`python3 -m venv --system-site-packages venv`
+## Activate the environment
+`source venv/bin/activate`
+## Install required python packages
 All the required python packages are listed in the *requirement.txt* file.
 
 `pip install -r requirements.txt`

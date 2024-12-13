@@ -23,7 +23,9 @@ from langchain_community.docstore.in_memory import InMemoryDocstore
 from pandasai import SmartDataframe
 import pandas as pd
 #from pandasai import PandasAI
-os.environ["OPENAI_API_KEY"] = "your-openai-key"
+from dotenv import load_dotenv
+load_dotenv()
+openai_api_key = os.getenv('OPENAI_API_KEY')
 embeddings = OpenAIEmbeddings()
 
 persist_directory = './db'
@@ -32,7 +34,7 @@ vectordb = Chroma(persist_directory=persist_directory, embedding_function=embedd
 model = "gpt-3.5-turbo"
 #model = "gpt-4"
 
-llm = ChatOpenAI(temperature=0, model_name=model,streaming=True)
+llm = ChatOpenAI(temperature=0, model_name=model,openai_api_key=openai_api_key,streaming=True)
 
 @cl.on_chat_start
 async def on_chat_start():

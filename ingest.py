@@ -1,18 +1,16 @@
-#from langchain.document_loaders import TextLoader, PyPDFLoader, CSVLoader, WebBaseLoader
 from langchain_community.document_loaders import TextLoader, PyMuPDFLoader,CSVLoader, WebBaseLoader
 from langchain.docstore.document import Document
 import os
 from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter,RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
-
-#from web_scrape import *
 from web import *
-
-os.environ["OPENAI_API_KEY"] = "your-openai-key"
+from dotenv import load_dotenv
+load_dotenv()
+openai_api_key = os.getenv('OPENAI_API_KEY')
 
 documents = []
-relative_path = '../docs/'
+relative_path = './docs/'
 for file in os.listdir(relative_path):
     if file.endswith(".pdf"):
         pdf_path = relative_path + file
@@ -32,48 +30,19 @@ for file in os.listdir(relative_path):
         documents.extend(loader.load())
 
 
-webs = [#"https://www.tuni.fi/fi/ajankohtaista/soumya-tripathy-generative-ai-models-enhance-advanced-image-manipulation?navref=curated--grid",
-        #"https://shanwangshan.github.io/shanshanwang",
-    #"https://blade6570.github.io/soumyatripathy/",
-
-        "https://jessepharrison.github.io/",
-        #"https://sites.google.com/view/dr-dev/home",
-    #"https://www.iiti.ac.in/people/~puneet/"
-
-
+webs = ["https://shanwangshan.github.io/shanshanwang",
+        "https://jessepharrison.github.io/"
         ]
 for web in webs:
     loader = RecursiveWebLoader(base_url=web, depth=1)
     scraped_data = loader.load()
-
-
     documents.extend(create_langchain_docs(scraped_data))
-    # if "tuni" in web:
-
-    #     scraped_data = scrape_website(web, max_depth=1)
-    # else:
-    #     scraped_data = scrape_website(web, max_depth=2)
-    # web_doc = create_langchain_docs(scraped_data)
-    # documents.extend(web_doc)
-# for doc in documents:
-#     print(f"Document from {doc.metadata['source']}:\n{doc.page_content[:500]}...")  # Print first 500 characters
-
 
 #breakpoint()
 text_splitter = RecursiveCharacterTextSplitter(
 chunk_size=1000, chunk_overlap=200, separators=[" ", ",", "\n"]
-) # degault values is 1000. 200
-#breakpoint()
-#text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+) # default values is 1000. 200
 split_documents = text_splitter.split_documents(documents)
 
-
-vectordb = Chroma.from_documents(split_documents, embedding=OpenAIEmbeddings(), persist_directory="./db")
+vectordb = Chroma.from_documents(split_documents, embedding=OpenAIEmbeddings(openai_api_key=openai_api_key), persist_directory="./db")
 vectordb.persist()
-
-
-
-# from langchain_community.vectorstores import FAISS
-# import faiss
-# vectorstore = FAISS.from_documents(split_documents, embedding =OpenAIEmbeddings() )
-# vectorstore.save_local("faiss_index")
