@@ -1,4 +1,4 @@
-# Simple_chatbot
+# Simple chatbot
 
 This is a simple chatbot repo which could answer questions related to the customized documents and a uploaded csv file.
 ## Create an vitual python environment
