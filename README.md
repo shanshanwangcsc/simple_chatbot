@@ -17,6 +17,7 @@ The customized source documents can be from any website or the pdf files put in 
 
 `python ingest.py`
 
+This script uses the OPENAI_API_KEY, one can create an .env file and put the key inside.
 ## Run the chatbot interface
 `chainlit run app.py -w`
 
