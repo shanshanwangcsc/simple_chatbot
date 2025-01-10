@@ -21,5 +21,10 @@ This script uses the OPENAI_API_KEY, one can create an .env file and put the key
 ## Run the chatbot interface
 `chainlit run app.py -w`
 
+- Notes: After issuing this command, one can open the browser, typically with link http://localhost:8000, one can interact with the vectorstore database and ask questions.
+
+- Another note is that if one is running on the cluster, then the port needs to be forwarded by logining to e.g., lumi server with
+` ssh -L 8000:localhost:8000 user@lumi.csc.fi `
+
 ## Test the chatbot
 In the QAs.txt, there are predifined questions and answers related to the titantic data.
