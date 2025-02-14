@@ -1,48 +1,40 @@
-from langchain_community.document_loaders import TextLoader, PyMuPDFLoader,CSVLoader, WebBaseLoader
-from langchain.docstore.document import Document
+"""
+Changes:
+- Embeddings handled with SentenceTransformerEmbeddings(model_name="all-mpnet-base-v2") instead of OpenAI
+- Only .pdf files 
+"""
+
 import os
-from langchain_openai import OpenAIEmbeddings
-from langchain.text_splitter import CharacterTextSplitter,RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
-from web import *
+
 from dotenv import load_dotenv
-load_dotenv()
-openai_api_key = os.getenv('OPENAI_API_KEY')
+from langchain_community.document_loaders import PyMuPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_chroma import Chroma
+from langchain_community.embeddings import SentenceTransformerEmbeddings
+
+#from dotenv import load_dotenv
+#load_dotenv()
+
+embedding_function = SentenceTransformerEmbeddings(model_name="all-mpnet-base-v2")
 
 documents = []
 relative_path = './docs/'
+
 for file in os.listdir(relative_path):
     if file.endswith(".pdf"):
-        pdf_path = relative_path + file
+        pdf_path = os.path.join(relative_path, file)
         loader = PyMuPDFLoader(pdf_path)
-        documents.extend(loader.load())
-    elif file.endswith('.docx') or file.endswith('.doc'):
-        doc_path = relative_path + file
-        loader = Docx2txtLoader(doc_path)
-        documents.extend(loader.load())
-    elif file.endswith('.txt'):
-        text_path = relative_path + file
-        loader = TextLoader(text_path)
-        documents.extend(loader.load())
-    elif file.endswith('.csv_'):
-        csv_path = relative_path + file
-        loader = CSVLoader(csv_path)
-        documents.extend(loader.load())
+        pdf_documents = loader.load()
+        print(f"PDF {file} contains {len(pdf_documents)} documents.")
+        documents.extend(pdf_documents)
+    else:
+        print("No .pdf files found.")
 
-
-webs = ["https://shanwangshan.github.io/shanshanwang",
-        "https://jessepharrison.github.io/"
-        ]
-for web in webs:
-    loader = RecursiveWebLoader(base_url=web, depth=1)
-    scraped_data = loader.load()
-    documents.extend(create_langchain_docs(scraped_data))
-
-#breakpoint()
 text_splitter = RecursiveCharacterTextSplitter(
-chunk_size=1000, chunk_overlap=200, separators=[" ", ",", "\n"]
-) # default values is 1000. 200
+    chunk_size=1000, chunk_overlap=200, separators=[" ", ",", "\n"]
+)
 split_documents = text_splitter.split_documents(documents)
 
-vectordb = Chroma.from_documents(split_documents, embedding=OpenAIEmbeddings(openai_api_key=openai_api_key), persist_directory="./db")
+vectordb = Chroma.from_documents(split_documents, embedding=embedding_function, persist_directory="./db")
 vectordb.persist()
+
