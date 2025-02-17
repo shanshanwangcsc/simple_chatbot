@@ -36,5 +36,6 @@ text_splitter = RecursiveCharacterTextSplitter(
 split_documents = text_splitter.split_documents(documents)
 
 vectordb = Chroma.from_documents(split_documents, embedding=embedding_function, persist_directory="./db")
-vectordb.persist()
+
+print("Finished creating the chromadb.")
 

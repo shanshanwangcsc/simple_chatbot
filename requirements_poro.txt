@@ -1,0 +1,11 @@
+chainlit
+langchain
+langchain-chroma
+langchain-community
+langchain-text-splitters
+openai
+pydantic
+python-dotenv
+pymupdf
+aitta-client
+sentence-transformers

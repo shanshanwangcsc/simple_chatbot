@@ -22,8 +22,8 @@ import chainlit as cl
 #from dotenv import load_dotenv
 #load_dotenv()
 
-#Set up Aitta client (https://dev-aitta.2.rahtiapp.fi/page/client_guide)
-poro_access_token = os.getenv("PORO_ACCESS_TOKEN") # get model specific token 
+# Set up Aitta client (https://dev-aitta.2.rahtiapp.fi/page/client_guide)
+poro_access_token = os.getenv("PORO_ACCESS_TOKEN") # Get model specific token 
 token_source = StaticAccessTokenSource(poro_access_token)
 client = Client("https://api-dev-aitta.2.rahtiapp.fi", token_source)
 
@@ -39,16 +39,9 @@ llm = ChatOpenAI(
     streaming=False 
 )
 
-"""llm = ChatOpenAI(
-    temperature=0,
-    model_name="LumiOpen/Poro-34B-chat",  
-    openai_api_key=poro_access_token, 
-    base_url="https://api-dev-aitta.2.rahtiapp.fi/model/LumiOpen~Poro-34B-chat/openai/v1/",
-    streaming=False 
-)"""
-
-# testing Poro
-"""response = llm.invoke("Kerro vitsi.")
+"""
+# Testing Poro
+response = llm.invoke("Kerro vitsi.")
 print(response)"""
 
 embedding_function = SentenceTransformerEmbeddings(model_name="all-mpnet-base-v2")
@@ -56,6 +49,7 @@ persist_directory = './db'
 vectordb = Chroma(persist_directory=persist_directory, 
                   embedding_function=embedding_function)
 
+# Set up Chainlit
 @cl.on_chat_start
 async def on_chat_start():
     message_history = ChatMessageHistory()
