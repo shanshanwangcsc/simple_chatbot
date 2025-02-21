@@ -6,7 +6,7 @@ langchain-core==0.3.24
 langchain-openai==0.2.12
 langchain-pinecone==0.2.0
 langchain-text-splitters==0.3.2
-pandasai==2.4.0
+pandasai==2.4.2
 pydantic==2.10.1
 python-dotenv==1.0.1
 lxml_html_clean
