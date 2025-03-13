@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # If you want to activate some venv etc. add it here
+python3 -m venv --system-site-packages aitta_venv
+source aitta_venv/bin/activate
 
 # Install packages and update packages
 echo "Install requirements_poro.txt"
@@ -12,10 +14,10 @@ echo "Run ingest.py"
 python ingest.py
 
 # Set token as env variable
-export PORO_ACCESS_TOKEN="<insert_token_here>"
+export PORO_ACCESS_TOKEN="your token here"
 
 # Now we need different version for aitta-client :)
 pip install --upgrade pydantic
 
-# Run the app 
+# Run the app
 chainlit run app.py -w
