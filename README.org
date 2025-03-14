@@ -1,0 +1,37 @@
+* AITTA integration with RAG pipeline
+This branch aims to give an simple example of how to use AITTA platform in the RAG pipeline. For details about AITTA, please refer to https://dev-aitta.2.rahtiapp.fi/page/client_guide. The online course will soon be available too.
+** To have a clean and separate virtual environment, one can create a new one
+#+begin_src bash
+  python3 -m venv --system-site-packages aitta_venv
+  source aitta_venv/bin/activate
+#+end_src
+** Install needed packages and upgrade some packages
+#+begin_src bash
+  pip install -r requirements_poro.txt
+  pip install --upgrade langchain langchain-community langchain-core langsmith "pydantic<2"
+#+end_src
+** Build Chroma vector store through langchain
+For simplicity, the document used is one research paper, located in the docs folder.
+#+begin_src bash
+  python ingest.py
+#+end_src
+** Set up Aitta client (https://dev-aitta.2.rahtiapp.fi/page/client_guide)
+Here we are using Chatbot version of Poro model, -> API Key -> Generate API key
+** Set the model token as environmental variable
+export PORO_ACCESS_TOKEN="your token here"
+
+** We need a different version of pydantic for aitta-client
+#+begin_src bash
+  pip install -upgrade pydantic
+#+end_src
+** Start the chat interface
+#+begin_src bash
+  chainlit run app.py -w
+#+end_src
+** Test
+One can ask some questions about the research paper. We provide some question answer pairs in the QAs.txt file.
+** Notes
+- It takes quite some time to get the answers back. The reasons for this are:
+  1.Calculating the embedding of the user's query does not happen in LUMI instead in the local machine due to AITTA does not have the feature of hosting the embedding model yet. But it is in the plan.
+  2. Search the relevant text chunks also takes place on the local machine since chroma does not support the GPU intuitively.
+- AITTA is still under development stage, it has not been able to have all the features we want it to have. Stay tuned :)
