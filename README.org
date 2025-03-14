@@ -32,6 +32,9 @@ export PORO_ACCESS_TOKEN="your token here"
 One can ask some questions about the research paper. We provide some question answer pairs in the QAs.txt file.
 ** Notes
 - It takes quite some time to get the answers back. The reasons for this are:
-  1.Calculating the embedding of the user's query does not happen in LUMI instead in the local machine due to AITTA does not have the feature of hosting the embedding model yet. But it is in the plan.
-  2. Search the relevant text chunks also takes place on the local machine since chroma does not support the GPU intuitively.
+
+  - calculating the embedding of the user's query does not happen in Lumi instead in the local machine due to AITTA does not have the feature of hosting the embedding model yet. But it is in the plan.
+  - search the relevant text chunks also takes place on the local machine since chroma does not support the GPU intuitively.
+
 - AITTA is still under development stage, it has not been able to have all the features we want it to have. Stay tuned :)
+- In addition, we have a ready solution to accelerate the whole RAG pipeline especially when the scale of the documents goes beyond, details can be seen from [[https://github.com/CSCfi/RAG-60K][RAG-60k]] repo.
