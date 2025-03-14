@@ -28,7 +28,7 @@ export PORO_ACCESS_TOKEN="your token here"
 #+begin_src bash
   chainlit run app.py -w
 #+end_src
-** Test
+** Test the chatbot
 One can ask some questions about the research paper. We provide some question answer pairs in the QAs.txt file.
 ** Notes
 - It takes quite some time to get the answers back. The reasons for this are:
