@@ -1,2 +1,6 @@
-1. what is soft-positive sampling?
-2. who are the authors of the article?
+1. Q: What is soft-positive sampling?
+  A: The positive pair for one audio sample is not from the exact corresponding video, but from a video of the same class.
+2. Q: Which dataset used in the article?
+   A: VGGsound, TAU Urban Audio-Visual Scenes 2021, and FSDnoisy18k
+3. Q: How many classes does VGGSOUND have?
+   A: 309
